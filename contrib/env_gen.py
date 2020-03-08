@@ -12,7 +12,8 @@ CONFIG_STRING = f"""# Basic config
 SECRET_KEY={sk}
 DEBUG=True
 ALLOWED_HOSTS=localhost, 127.0.0.1
-DATABASE_URL=sqlite:///db.sqlite3
+DATABASE_URL=postgres://sie:sie@localhost/postgres
+LEGACY_DB_URL=mysql://admin:test@127.0.0.1:8889/database
 
 # Email Configuration
 EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend

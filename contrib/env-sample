@@ -1,0 +1,14 @@
+# Basic config
+SECRET_KEY=ChangeFor_aSecretHere
+DEBUG=True
+ALLOWED_HOSTS=localhost, 127.0.0.1
+DATABASE_URL=postgres://sie:sie@localhost/postgres
+LEGACY_DB_URL=mysql://admin:test@127.0.0.1:8889/database
+
+# Email Configuration
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+EMAIL_HOST=localhost
+EMAIL_PORT=25
+EMAIL_USE_TLS=False
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=

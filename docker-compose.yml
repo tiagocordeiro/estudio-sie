@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  database:
+    container_name: estudio-sie-db
+    image: postgres
+    restart: always
+    volumes:
+    - ./.pgdata:/var/lib/postgresql/data
+    environment:
+      - LC_ALL=C.UTF-8
+      - POSTGRES_PASSWORD=sie
+      - POSTGRES_USER=sie
+    ports:
+      - 5432:5432
+
+  legacy_database:
+    container_name: estudio-sie-legacy-db
+    image: mariadb
+    restart: always
+    volumes:
+      - ./.mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: database
+    ports:
+      - "8889:3306"
