@@ -13,3 +13,6 @@ mysqlclient==1.4.6
 
 # psycopg
 psycopg2==2.8.4
+
+# Pillow
+Pillow==7.0.0

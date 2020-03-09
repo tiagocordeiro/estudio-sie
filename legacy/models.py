@@ -46,7 +46,7 @@ class Clientes(models.Model):
     cli_descricao = models.TextField(blank=True, null=True)
 
     def full_fone(self):
-        return f"({self.cli_tel_ddd}) {self.cli_tel}"
+        return f"({self.cli_tel_ddd}) {self.cli_tel[:4]}-{self.cli_tel[-4:]}"
 
     class Meta:
         managed = False
@@ -68,6 +68,13 @@ class ClientesContatos(models.Model):
     cnt_setor = models.CharField(max_length=100, blank=True, null=True)
     cnt_responsavel = models.CharField(max_length=1, blank=True, null=True)
     cnt_idnextel = models.CharField(max_length=50, blank=True, null=True)
+
+    def full_fone(self):
+        return f"({self.cnt_tel_ddd}) " \
+               f"{self.cnt_telefone[:4]}-{self.cnt_telefone[-4:]}"
+
+    def full_mobile(self):
+        return f"({self.cnt_cel_ddd}) {self.cnt_celular}"
 
     class Meta:
         managed = False

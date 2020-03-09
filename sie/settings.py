@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     # Legacy
     'legacy',
 
+    # sie apps
+    'core',
+
 ]
 
 MIDDLEWARE = [
@@ -53,6 +56,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Django DebugToolbar
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    INTERNAL_IPS = ['127.0.0.1']
 
 ROOT_URLCONF = 'sie.urls'
 
@@ -115,10 +124,21 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Redirect to home URL after login
+LOGIN_REDIRECT_URL = '/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# Configuration for dev environment
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media Files (Uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+COLLECTFAST_ENABLED = True
 
 # Email Configuration
 EMAIL_HOST = config('EMAIL_HOST', default='localhost')

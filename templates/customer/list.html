@@ -1,0 +1,151 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load core_extras %}
+
+{% block extra_css %}
+    <!-- JQuery DataTable Css -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css' %}">
+    <style>
+        .btn-acao {
+            margin: 0px;
+            padding: 3px 9px 0px;
+        }
+
+        .table td {
+            padding: .25rem;
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block content %}
+    <section class="content">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 col-sm-12">
+                    <h2>Dashboard</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'dashboard' %}"><i class="zmdi zmdi-home"></i>Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">Clientes</li>
+                    </ul>
+                    <button class="btn btn-primary btn-icon mobile_menu" type="button">
+                        <i class="zmdi zmdi-sort-amount-desc"></i>
+                    </button>
+                </div>
+                <div class="col-lg-5 col-md-6 col-sm-12">
+
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <!-- Exportable Table -->
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong>Clientes </strong>(legado)</h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table id="table-customer-list" class="table table-hover dataTable js-exportable" data-order='[[1, "asc"]]' data-page-length='20' style="border-collapse: collapse !important;">
+                                    <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Cliente</th>
+                                        <th data-orderable='false'>Telefone</th>
+                                        <th data-orderable='false' class="align-center">Atividade</th>
+                                        <th data-orderable='false' class="align-center">Tipo</th>
+                                        <th data-orderable='false' class="align-center">Negociação</th>
+                                        <th data-orderable='false'></th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Cliente</th>
+                                        <th>Telefone</th>
+                                        <th class="align-center">Atividade</th>
+                                        <th class="align-center">Tipo</th>
+                                        <th class="align-center">Negociação</th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    {% for customer in legacy_customers %}
+                                        <tr>
+                                            <td>{{ customer.cli_codigo }}</td>
+                                            <td>{{ customer.cli_nomefantasia_nomecomercial }}</td>
+                                            <td>
+                                                {% if customer.cli_tel %}
+                                                    {{ customer.full_fone }}
+                                                {% endif %}
+                                            </td>
+                                            <td class="align-center">
+                                                {% if customer.cli_atividade ==  '1' %}
+                                                    <span class="badge badge-success">Indústria Gráfica</span>
+                                                {% elif customer.cli_atividade == '2' %}
+                                                    <span class="badge badge-default">Editora</span>
+                                                {% elif customer.cli_atividade == '3' %}
+                                                    <span class="badge badge-primary">Agência de Propaganda</span>
+                                                {% elif customer.cli_atividade == '4' %}
+                                                    <span class="badge badge-warning">Produtor Gráfico</span>
+                                                {% else %}
+                                                    <span class="badge badge-info">Outra</span>
+                                                {% endif %}
+                                            </td>
+
+                                            <td class="align-center">
+                                                {% if customer.cli_tipopessoa == 'J' %}
+                                                    <span style="color: black; background-color: #fbc02d;" class="badge badge-info">Jurídica</span>
+                                                {% elif customer.cli_tipopessoa == 'F' %}
+                                                    <span style="color: black; background-color: #fbc02d;" class="badge badge-info">Física</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="align-center">
+                                                {% if customer.neg_codigo == 1 %}
+                                                    <span style="color: black; background-color: #afb42b;" class="badge badge-info">À Vista</span>
+                                                {% elif customer.neg_codigo == 2 %}
+                                                    <span style="color: black; background-color: #afb42b;" class="badge badge-info">30 d.f. quinzena</span>
+                                                {% elif customer.neg_codigo == 3 %}
+                                                    <span style="color: black; background-color: #afb42b;" class="badge badge-info">15 d.f o mês</span>
+                                                {% elif customer.neg_codigo == 4 %}
+                                                    <span style="color: black; background-color: #afb42b;" class="badge badge-info">15 e 30  d.f o mês</span>
+                                                {% elif customer.neg_codigo == 5 %}
+                                                    <span style="color: black; background-color: #afb42b;" class="badge badge-info">Outros</span>
+                                                {% elif customer.neg_codigo == 6 %}
+                                                    <span style="color: black; background-color: #afb42b;" class="badge badge-info">30 d.d.</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="align-middle align-center" style="white-space: nowrap; text-align: right;">
+                                                <a class="btn btn-primary btn-sm btn-acao" href="{% url 'legacy_customer_detail' cli_codigo=customer.cli_codigo %}" role="button" data-toggle="tooltip" data-placement="top" title="Detalhes">
+                                                    <i class="zmdi zmdi-view-compact"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block extra_js %}
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="{% static 'assets/bundles/datatablescripts.bundle.js' %}"></script>
+    <script src="{% static 'assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/jquery-datatable/buttons/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/jquery-datatable/buttons/buttons.colVis.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/jquery-datatable/buttons/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/jquery-datatable/buttons/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/jquery-datatable/buttons/buttons.print.min.js' %}"></script>
+
+    <script src="{% static 'assets/js/extras/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/extras/datetime-moment.js' %}"></script>
+
+    <script src="{% static 'assets/js/pages/tables/jquery-datatable.js' %}"></script>
+{% endblock extra_js %}
