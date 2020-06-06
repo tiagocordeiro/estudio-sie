@@ -1,5 +1,5 @@
 # Coverage
-coverage==5.0.3
+coverage==5.1
 
 # DebugToolbar
 django-debug-toolbar==2.2
